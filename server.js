@@ -31,6 +31,16 @@ app.get('/cards/:id', (req, res) => {
   res.json(cards.find(card => card.id === id));
 });
 
+app.delete('/cards/:id', (req, res) => {
+  readCards();
+  const { id } = req.params;
+  const card = cards.find(card => card.id === id);
+  const index = cards.indexOf(card);
+  cards = [...cards.slice(0, index), ...cards.slice(index + 1)];
+  saveCards(cards);
+  readCards();
+});
+
 function readCards() {
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {

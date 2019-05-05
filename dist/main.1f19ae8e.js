@@ -117,9 +117,75 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"main.js":[function(require,module,exports) {
+})({"components/Form.js":[function(require,module,exports) {
+"use strict";
 
-},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Form = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Form = function Form() {
+  var _this = this;
+
+  _classCallCheck(this, Form);
+
+  console.log('moin');
+  this.form = document.querySelector('.form');
+  this.btn = document.querySelector('.btn');
+  this.form = document.querySelector('form');
+  this.titleInput = document.querySelector('.form__input--title');
+  this.descriptionInput = document.querySelector('.form__input--description');
+  this.categoryInput = document.querySelector('.form__input--category');
+  this.form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    fetch('/cards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: _this.titleInput.value,
+        description: _this.descriptionInput.value,
+        category: _this.categoryInput.value
+      })
+    }).then(function (res) {
+      return res.json();
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  });
+};
+
+exports.Form = Form;
+},{}],"components/App.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.App = void 0;
+
+var _Form = require("./Form");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var App = function App() {
+  _classCallCheck(this, App);
+
+  new _Form.Form();
+};
+
+exports.App = App;
+},{"./Form":"components/Form.js"}],"main.js":[function(require,module,exports) {
+"use strict";
+
+var _App = require("./components/App");
+
+new _App.App();
+},{"./components/App":"components/App.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -147,7 +213,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53841" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51035" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
