@@ -1,7 +1,5 @@
 export class Form {
   constructor() {
-    console.log('moin');
-
     this.form = document.querySelector('.form');
     this.btn = document.querySelector('.btn');
     this.form = document.querySelector('form');
@@ -24,7 +22,6 @@ export class Form {
         })
       })
         .then(res => res.json())
-        .catch(err => console.log(err));
     });
   }
 }

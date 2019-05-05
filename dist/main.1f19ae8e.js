@@ -132,7 +132,6 @@ var Form = function Form() {
 
   _classCallCheck(this, Form);
 
-  console.log('moin');
   this.form = document.querySelector('.form');
   this.btn = document.querySelector('.btn');
   this.form = document.querySelector('form');
@@ -153,14 +152,132 @@ var Form = function Form() {
       })
     }).then(function (res) {
       return res.json();
-    }).catch(function (err) {
-      return console.log(err);
     });
   });
 };
 
 exports.Form = Form;
-},{}],"components/App.js":[function(require,module,exports) {
+},{}],"components/utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createEl = createEl;
+
+function createEl(_ref) {
+  var _ref$className = _ref.className,
+      className = _ref$className === void 0 ? 'card' : _ref$className,
+      _ref$type = _ref.type,
+      type = _ref$type === void 0 ? 'div' : _ref$type,
+      _ref$target = _ref.target,
+      target = _ref$target === void 0 ? document.body : _ref$target,
+      _ref$position = _ref.position,
+      position = _ref$position === void 0 ? 'beforeend' : _ref$position,
+      _ref$innerHTML = _ref.innerHTML,
+      innerHTML = _ref$innerHTML === void 0 ? '' : _ref$innerHTML;
+  var el = document.createElement(type);
+  el.className = className;
+  el.innerHTML = innerHTML;
+  target.insertAdjacentElement(position, el);
+  return el;
+}
+},{}],"components/Card.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Card = void 0;
+
+var _utils = require("./utils");
+
+var _CardList = require("./CardList");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Card =
+/*#__PURE__*/
+function () {
+  function Card(title, category, description) {
+    _classCallCheck(this, Card);
+
+    this.cardsContainer = document.querySelector('.cards__container');
+    this.title = title;
+    this.category = category;
+    this.description = description;
+    this.createCard(title, category, description);
+  }
+
+  _createClass(Card, [{
+    key: "createCard",
+    value: function createCard(title, category, description) {
+      this.newCard = (0, _utils.createEl)({
+        type: 'div',
+        target: this.cardsContainer,
+        position: 'beforeend'
+      });
+      this.newCard.innerHTML = "\n        <h2>".concat(title, "</h2>\n        <h3>").concat(category, "</h3>\n        <p>").concat(description, "</p>");
+    }
+  }]);
+
+  return Card;
+}();
+
+exports.Card = Card;
+},{"./utils":"components/utils.js","./CardList":"components/CardList.js"}],"components/CardList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CardList = void 0;
+
+var _Card = require("./Card");
+
+var _utils = require("./utils");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var CardList =
+/*#__PURE__*/
+function () {
+  function CardList() {
+    var _this = this;
+
+    _classCallCheck(this, CardList);
+
+    this.cardsContainer = document.querySelector('.cards__container');
+    fetch('/cards').then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      return _this.renderCards(data);
+    });
+  }
+
+  _createClass(CardList, [{
+    key: "renderCards",
+    value: function renderCards(data) {
+      this.cardList = data;
+      this.cardList.forEach(function (card) {
+        return new _Card.Card(card.title, card.category, card.description);
+      });
+    }
+  }]);
+
+  return CardList;
+}();
+
+exports.CardList = CardList;
+},{"./Card":"components/Card.js","./utils":"components/utils.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -170,16 +287,19 @@ exports.App = void 0;
 
 var _Form = require("./Form");
 
+var _CardList = require("./CardList");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var App = function App() {
   _classCallCheck(this, App);
 
   new _Form.Form();
+  new _CardList.CardList();
 };
 
 exports.App = App;
-},{"./Form":"components/Form.js"}],"main.js":[function(require,module,exports) {
+},{"./Form":"components/Form.js","./CardList":"components/CardList.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _App = require("./components/App");
@@ -213,7 +333,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51035" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54226" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
