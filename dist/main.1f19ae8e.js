@@ -117,47 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"components/Form.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Form = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Form = function Form() {
-  var _this = this;
-
-  _classCallCheck(this, Form);
-
-  this.form = document.querySelector('.form');
-  this.btn = document.querySelector('.btn');
-  this.form = document.querySelector('form');
-  this.titleInput = document.querySelector('.form__input--title');
-  this.descriptionInput = document.querySelector('.form__input--description');
-  this.categoryInput = document.querySelector('.form__input--category');
-  this.form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    fetch('/cards', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: _this.titleInput.value,
-        description: _this.descriptionInput.value,
-        category: _this.categoryInput.value
-      })
-    }).then(function (res) {
-      return res.json();
-    });
-  });
-};
-
-exports.Form = Form;
-},{}],"components/utils.js":[function(require,module,exports) {
+})({"components/utils.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -182,54 +142,7 @@ function createEl(_ref) {
   target.insertAdjacentElement(position, el);
   return el;
 }
-},{}],"components/Card.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Card = void 0;
-
-var _utils = require("./utils");
-
-var _CardList = require("./CardList");
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var Card =
-/*#__PURE__*/
-function () {
-  function Card(title, category, description) {
-    _classCallCheck(this, Card);
-
-    this.cardsContainer = document.querySelector('.cards__container');
-    this.title = title;
-    this.category = category;
-    this.description = description;
-    this.createCard(title, category, description);
-  }
-
-  _createClass(Card, [{
-    key: "createCard",
-    value: function createCard(title, category, description) {
-      this.newCard = (0, _utils.createEl)({
-        type: 'div',
-        target: this.cardsContainer,
-        position: 'beforeend'
-      });
-      this.newCard.innerHTML = "\n        <h2>".concat(title, "</h2>\n        <h3>").concat(category, "</h3>\n        <p>").concat(description, "</p>");
-    }
-  }]);
-
-  return Card;
-}();
-
-exports.Card = Card;
-},{"./utils":"components/utils.js","./CardList":"components/CardList.js"}],"components/CardList.js":[function(require,module,exports) {
+},{}],"components/CardList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -277,7 +190,99 @@ function () {
 }();
 
 exports.CardList = CardList;
-},{"./Card":"components/Card.js","./utils":"components/utils.js"}],"components/App.js":[function(require,module,exports) {
+},{"./Card":"components/Card.js","./utils":"components/utils.js"}],"components/Card.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Card = void 0;
+
+var _utils = require("./utils");
+
+var _CardList = require("./CardList");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Card =
+/*#__PURE__*/
+function () {
+  function Card(title, category, description) {
+    _classCallCheck(this, Card);
+
+    this.cardsContainer = document.querySelector('.cards__container');
+    this.title = title;
+    this.category = category;
+    this.description = description;
+    this.createCard(title, category, description);
+  }
+
+  _createClass(Card, [{
+    key: "createCard",
+    value: function createCard(title, category, description) {
+      this.newCard = (0, _utils.createEl)({
+        type: 'div',
+        target: this.cardsContainer,
+        position: 'afterbegin'
+      });
+      this.newCard.innerHTML = "\n        <h2>".concat(title, "</h2>\n        <h3>").concat(category, "</h3>\n        <p>").concat(description, "</p>\n        <button class=\"card__button--delete\" type=\"button\">DELETE CARD</button>");
+    }
+  }]);
+
+  return Card;
+}(); //        <button class="card__button--delete" type="button">DELETE CARD</button>`
+
+
+exports.Card = Card;
+},{"./utils":"components/utils.js","./CardList":"components/CardList.js"}],"components/Form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Form = void 0;
+
+var _Card = require("./Card");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Form = function Form() {
+  var _this = this;
+
+  _classCallCheck(this, Form);
+
+  this.form = document.querySelector('.form');
+  this.btn = document.querySelector('.btn');
+  this.form = document.querySelector('form');
+  this.titleInput = document.querySelector('.form__input--title');
+  this.descriptionInput = document.querySelector('.form__input--description');
+  this.categoryInput = document.querySelector('.form__input--category');
+  this.form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    fetch('/cards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: _this.titleInput.value,
+        category: _this.categoryInput.value,
+        description: _this.descriptionInput.value
+      })
+    }).then(function (res) {
+      return res.json();
+    }).then(new _Card.Card(JSON.parse(_this.titleInput), JSON.parse(_this.categoryInput), JSON.parse(_this.descriptionInput))).catch(function (err) {
+      return err.message;
+    });
+  });
+};
+
+exports.Form = Form;
+},{"./Card":"components/Card.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -333,7 +338,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54226" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65320" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

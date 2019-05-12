@@ -1,3 +1,5 @@
+import { Card } from "./Card";
+
 export class Form {
   constructor() {
     this.form = document.querySelector('.form');
@@ -8,8 +10,7 @@ export class Form {
     this.categoryInput = document.querySelector('.form__input--category');
 
     this.form.addEventListener('submit', event => {
-      event.preventDefault();
-
+event.preventDefault()
       fetch('/cards', {
         method: 'POST',
         headers: {
@@ -17,11 +18,13 @@ export class Form {
         },
         body: JSON.stringify({
           title: this.titleInput.value,
+          category: this.categoryInput.value,
           description: this.descriptionInput.value,
-          category: this.categoryInput.value
         })
       })
         .then(res => res.json())
+        .then(new Card(JSON.parse(this.titleInput), JSON.parse(this.categoryInput), JSON.parse(this.descriptionInput)))
+        .catch(err => err.message)
     });
   }
 }

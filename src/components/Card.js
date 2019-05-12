@@ -13,11 +13,16 @@ export class Card {
         this.newCard = createEl({
             type: 'div',
             target: this.cardsContainer,
-            position: 'beforeend'
+            position: 'afterbegin'
         })
         this.newCard.innerHTML = `
         <h2>${title}</h2>
         <h3>${category}</h3>
-        <p>${description}</p>`
+        <p>${description}</p>
+        <button class="card__button--delete" type="button">DELETE CARD</button>`
     }
-}
+    }
+
+
+
+//        <button class="card__button--delete" type="button">DELETE CARD</button>`

@@ -16,9 +16,7 @@ export class CardList {
         this.cardList.forEach(card => new Card(card.title, card.category, card.description))
     }
 
-    
-    
-    
+
 }
 
 
